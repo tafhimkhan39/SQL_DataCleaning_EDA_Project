@@ -5,6 +5,7 @@
 SELECT *
 FROM layoffs_staging2;
 
+-- Company that laid off the most in one day
 SELECT MAX(total_laid_off), MAX(percentage_laid_off)
 FROM layoffs_staging2;
 
@@ -29,7 +30,7 @@ SELECT industry, SUM(total_laid_off)
 FROM layoffs_staging2
 GROUP BY industry
 ORDER BY 2 DESC;
--- Comsumer and retail had the biggest layoffs due to COVID
+-- Comsumer and retail had the biggest layoffs due to COVID-19
 
 -- Which countries had the biggest layoffs
 SELECT country, SUM(total_laid_off)
@@ -37,7 +38,7 @@ FROM layoffs_staging2
 GROUP BY country
 ORDER BY 2 DESC;
 
--- WHich year had the biggest layoffs
+-- Total layoffs in each year
 SELECT YEAR(`date`), SUM(total_laid_off)
 FROM layoffs_staging2
 GROUP BY YEAR(`date`)
@@ -69,12 +70,6 @@ SELECT `MONTH`, total_off
 , SUM(total_off) OVER(ORDER BY `MONTH`) AS rolling_total
 FROM Rolling_Total;
 
--- Companies with the most layoffs desc order
-SELECT company, SUM(total_laid_off)
-FROM layoffs_staging2
-GROUP BY company
-ORDER BY 2 DESC;
-
 -- FInding which year a company had their biggest layoff
 SELECT company, YEAR(`date`), SUM(total_laid_off)
 FROM layoffs_staging2
@@ -93,5 +88,4 @@ FROM Company_Year
 WHERE years IS NOT NULL)
 SELECT *
 FROM Company_Year_Rank
-WHERE ranking <= 5
-;
+WHERE ranking <= 5;
